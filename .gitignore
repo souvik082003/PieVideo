@@ -1,0 +1,25 @@
+# OS & IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+# Node
+node_modules/
+npm-debug.log
+yarn-debug.log
+
+# Build
+dist/
+build/
+.next/
+out/
+coverage/
+
+# Misc
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

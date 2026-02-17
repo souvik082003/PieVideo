@@ -1,0 +1,224 @@
+/* ===== GOODNIGHT MODE ===== */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: linear-gradient(180deg, #05051a 0%, #0a0a2e 30%, #0d0d35 60%, #151540 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: gnFadeIn 1.5s ease;
+}
+
+/* Stars */
+.stars {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+/* Moon */
+.moon {
+    position: absolute;
+    top: 8%;
+    right: 12%;
+    font-size: 5rem;
+    animation: moonFloat 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 30px rgba(255, 223, 100, 0.3));
+}
+
+@keyframes moonFloat {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(5deg);
+    }
+}
+
+/* Center content */
+.content {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+    padding: 40px;
+}
+
+.title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #e0d4f7;
+    letter-spacing: -0.02em;
+    text-shadow: 0 0 40px rgba(167, 139, 250, 0.3);
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: rgba(200, 190, 230, 0.6);
+    font-weight: 400;
+    margin-top: -12px;
+}
+
+/* Ambient sounds */
+.soundsRow {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.soundBtn {
+    padding: 12px 22px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(200, 190, 230, 0.7);
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.soundBtn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+}
+
+.soundActive {
+    background: rgba(139, 92, 246, 0.15);
+    border-color: rgba(139, 92, 246, 0.3);
+    color: #c4b5fd;
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15);
+}
+
+/* Timer */
+.timerSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timerRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.timerLabel {
+    font-size: 0.82rem;
+    color: rgba(200, 190, 230, 0.5);
+}
+
+.timerOption {
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.03);
+    color: rgba(200, 190, 230, 0.6);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.timerOption:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+}
+
+.timerText {
+    font-size: 0.88rem;
+    color: #c4b5fd;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cancelTimer {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    font-size: 0.7rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Wake up button */
+.wakeBtn {
+    margin-top: 12px;
+    padding: 14px 36px;
+    border-radius: 16px;
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.08), rgba(245, 158, 11, 0.12));
+    color: #fbbf24;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.wakeBtn:hover {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.2));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(251, 191, 36, 0.15);
+}
+
+@keyframes gnFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .moon {
+        font-size: 3rem;
+        top: 5%;
+        right: 8%;
+    }
+
+    .content {
+        padding: 24px;
+        gap: 18px;
+    }
+}

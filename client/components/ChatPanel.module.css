@@ -1,0 +1,342 @@
+/* ===== WHATSAPP-STYLE CHAT PANEL ===== */
+
+.panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 380px;
+    height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    background: var(--chat-bg, #0b141a);
+    border-left: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+    z-index: 15;
+    animation: slide-in-right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Header — WhatsApp teal bar */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: var(--accent, #075e54);
+    flex-shrink: 0;
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.headerIcon {
+    font-size: 1.1rem;
+}
+
+.headerTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+}
+
+.msgCount {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.15);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+/* Messages area */
+.messagesArea {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+}
+
+/* Subtle wallpaper pattern */
+.wallpaper {
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Empty state */
+.empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 6px;
+    color: var(--text-muted, rgba(255, 255, 255, 0.3));
+    font-size: 0.88rem;
+    z-index: 1;
+}
+
+.emptyIcon {
+    font-size: 2.5rem;
+    opacity: 0.3;
+}
+
+.emptyHint {
+    font-size: 0.78rem;
+    color: var(--text-muted, rgba(255, 255, 255, 0.2));
+}
+
+/* Message groups */
+.msgGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-width: 82%;
+    position: relative;
+    z-index: 1;
+    animation: fade-in 0.25s ease;
+}
+
+.myGroup {
+    align-self: flex-end;
+    align-items: flex-end;
+}
+
+.senderRow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 3px;
+}
+
+.senderAvatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent, #6366f1), #a855f7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+}
+
+.senderName {
+    font-size: 0.7rem;
+    color: var(--accent, #00a884);
+    font-weight: 600;
+}
+
+/* Message bubbles — WhatsApp style */
+.bubble {
+    display: inline-flex;
+    flex-direction: column;
+    padding: 8px 10px 4px 10px;
+    border-radius: 10px;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    position: relative;
+}
+
+.myBubble {
+    background: var(--sent-bubble, #075e54);
+    color: var(--sent-bubble-text, #e9edef);
+    border-top-right-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.theirBubble {
+    background: var(--received-bubble, #1f2937);
+    color: var(--received-bubble-text, #e9edef);
+    border-top-left-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.msgText {
+    font-size: 0.88rem;
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
+
+/* Time + ticks row */
+.msgMeta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+    margin-top: 2px;
+}
+
+.msgTime {
+    font-size: 0.58rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.ticks {
+    font-size: 0.65rem;
+    color: #53bdeb;
+    letter-spacing: -2px;
+}
+
+/* File attachments */
+.imageAttachment {
+    margin: -4px -6px 6px -6px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.attachedImage {
+    width: 100%;
+    max-width: 260px;
+    max-height: 200px;
+    object-fit: cover;
+    display: block;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.attachedImage:hover {
+    opacity: 0.9;
+}
+
+.fileAttachment {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    margin-bottom: 4px;
+}
+
+.fileIcon {
+    font-size: 1.4rem;
+}
+
+.fileInfo {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.fileName {
+    font-size: 0.8rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fileSize {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.downloadBtn {
+    font-size: 1.2rem;
+    text-decoration: none;
+    padding: 4px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.downloadBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Input area */
+.inputArea {
+    display: flex;
+    gap: 6px;
+    padding: 10px 12px;
+    background: var(--bg-secondary, #111118);
+    border-top: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+    flex-shrink: 0;
+    align-items: center;
+}
+
+.fileInput {
+    display: none;
+}
+
+.attachBtn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    font-size: 1.15rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.attachBtn:hover {
+    background: var(--bg-hover, rgba(255, 255, 255, 0.08));
+}
+
+.textInput {
+    flex: 1;
+    padding: 10px 14px;
+    background: var(--bg-input, rgba(255, 255, 255, 0.05));
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+    border-radius: 20px;
+    color: var(--text-primary, white);
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.textInput::placeholder {
+    color: var(--text-muted, rgba(255, 255, 255, 0.3));
+}
+
+.textInput:focus {
+    border-color: var(--accent, #6366f1);
+}
+
+.sendBtn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--accent, #00a884);
+    color: white;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    border: none;
+    box-shadow: 0 2px 8px var(--accent-glow, rgba(0, 168, 132, 0.3));
+}
+
+.sendBtn:hover:not(:disabled) {
+    transform: scale(1.08);
+}
+
+.sendBtn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .panel {
+        width: 100%;
+        height: calc(100vh - 70px);
+    }
+}

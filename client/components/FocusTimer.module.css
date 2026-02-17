@@ -1,0 +1,354 @@
+/* ===== FOCUS TIMER ===== */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.25s ease;
+}
+
+.panel {
+    background: var(--bg-secondary, #111118);
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+    border-radius: 24px;
+    padding: 28px;
+    width: 340px;
+    max-width: 90vw;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.header h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary, white);
+}
+
+.closeBtn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bg-card, rgba(255, 255, 255, 0.04));
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.closeBtn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+/* Timer ring */
+.timerRing {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 24px;
+}
+
+.svg {
+    width: 100%;
+    height: 100%;
+}
+
+.progressRing {
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+.timeDisplay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.timeDigits {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary, white);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 2px;
+}
+
+.timeLabel {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Presets */
+.presets {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.presetBtn {
+    padding: 7px 14px;
+    border-radius: 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.presetBtn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.presetActive {
+    background: var(--accent-glow, rgba(99, 102, 241, 0.2));
+    border-color: var(--accent, #6366f1);
+    color: var(--accent, #6366f1);
+}
+
+/* Custom timer input */
+.customRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.customInput {
+    width: 58px;
+    padding: 8px 6px;
+    text-align: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-primary, white);
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.customInput:focus {
+    border-color: var(--accent, #6366f1);
+    outline: none;
+}
+
+.customInput::placeholder {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* Remove spinner arrows */
+.customInput::-webkit-outer-spin-button,
+.customInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.customSep {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.customSetBtn {
+    padding: 8px 16px;
+    border-radius: 10px;
+    background: var(--accent-glow, rgba(99, 102, 241, 0.15));
+    border: 1px solid var(--accent, #6366f1);
+    color: var(--accent, #6366f1);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.customSetBtn:hover:not(:disabled) {
+    background: var(--accent, #6366f1);
+    color: white;
+}
+
+.customSetBtn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.timerBtn {
+    padding: 10px 24px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.startBtn {
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    color: white;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.startBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.resetBtn {
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+.resetBtn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+/* On-screen mini timer */
+.miniTimer {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+    border-radius: 14px;
+    z-index: 28;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    animation: slideDown 0.3s ease;
+    cursor: pointer;
+}
+
+.miniTimer:hover {
+    border-color: var(--accent, rgba(99, 102, 241, 0.4));
+}
+
+.miniTimerDone {
+    border-color: rgba(34, 197, 94, 0.4);
+    animation: pulseGlow 1s ease infinite;
+}
+
+.miniDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: pulseDot 1.5s ease infinite;
+}
+
+.miniDotPaused {
+    background: #f59e0b;
+    animation: none;
+}
+
+.miniTime {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: white;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 1px;
+}
+
+.miniLabel {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes pulseDot {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+    }
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 4px 20px rgba(34, 197, 94, 0.25), 0 0 8px rgba(34, 197, 94, 0.2);
+    }
+}

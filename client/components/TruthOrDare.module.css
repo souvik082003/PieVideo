@@ -1,0 +1,255 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.panel {
+    background: linear-gradient(145deg, rgba(30, 30, 50, 0.95), rgba(20, 20, 35, 0.98));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 24px;
+    width: 420px;
+    max-width: 90vw;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.headerIcon {
+    font-size: 1.4rem;
+}
+
+.headerTitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    flex: 1;
+}
+
+.closeBtn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #aaa;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.closeBtn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+/* Choice Area */
+.choiceArea {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.prompt {
+    color: #ccc;
+    font-size: 1rem;
+    margin-bottom: 24px;
+}
+
+.choiceBtns {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.choiceBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 24px 36px;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 130px;
+}
+
+.choiceBtn:hover {
+    transform: translateY(-4px) scale(1.05);
+}
+
+.choiceBtn:active {
+    transform: scale(0.98);
+}
+
+.truthBtn {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(99, 102, 241, 0.15));
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.truthBtn:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(99, 102, 241, 0.25));
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.3);
+}
+
+.dareBtn {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(249, 115, 22, 0.15));
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.dareBtn:hover {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.25), rgba(249, 115, 22, 0.25));
+    box-shadow: 0 8px 30px rgba(239, 68, 68, 0.3);
+}
+
+.choiceEmoji {
+    font-size: 2.4rem;
+}
+
+.choiceLabel {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.05em;
+}
+
+.counter {
+    color: #666;
+    font-size: 0.8rem;
+    margin-top: 20px;
+}
+
+/* Card Area */
+.cardArea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.card {
+    width: 100%;
+    padding: 28px;
+    border-radius: 18px;
+    text-align: center;
+    transition: transform 0.6s ease;
+    transform-style: preserve-3d;
+}
+
+.card.flipping {
+    animation: cardFlip 0.6s ease;
+}
+
+@keyframes cardFlip {
+    0% {
+        transform: rotateY(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotateY(90deg) scale(0.9);
+    }
+
+    100% {
+        transform: rotateY(0deg) scale(1);
+    }
+}
+
+.truthCard {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(99, 102, 241, 0.12));
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.15);
+}
+
+.dareCard {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(249, 115, 22, 0.12));
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    box-shadow: 0 8px 30px rgba(239, 68, 68, 0.15);
+}
+
+.cardType {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #aaa;
+    margin-bottom: 14px;
+}
+
+.cardQuestion {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #fff;
+    font-weight: 500;
+}
+
+.cardActions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.nextBtn,
+.switchBtn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.nextBtn {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+    color: #a5b4fc;
+}
+
+.nextBtn:hover {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
+}
+
+.switchBtn {
+    background: rgba(255, 255, 255, 0.04);
+    color: #999;
+}
+
+.switchBtn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}

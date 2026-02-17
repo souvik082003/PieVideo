@@ -1,0 +1,316 @@
+/* ===== CONTROLS BAR — REDESIGNED ===== */
+
+.controlsBar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    height: 64px;
+    background: var(--controls-bg, rgba(10, 10, 15, 0.92));
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+    z-index: 30;
+}
+
+.leftGroup,
+.rightGroup {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 160px;
+}
+
+.rightGroup {
+    justify-content: flex-end;
+}
+
+.centerGroup {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Room ID */
+.roomIdBtn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 10px;
+    background: var(--bg-input, rgba(255, 255, 255, 0.05));
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+    border-radius: 8px;
+    color: var(--text-secondary, rgba(255, 255, 255, 0.5));
+    font-size: 0.68rem;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.roomIdBtn:hover {
+    border-color: var(--accent, #6366f1);
+    color: var(--text-primary, white);
+}
+
+.roomIdText {
+    max-width: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.copyIcon {
+    font-size: 0.8rem;
+}
+
+/* Tool buttons (timer, todo) */
+.toolBtn {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--bg-card, rgba(255, 255, 255, 0.04));
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.toolBtn:hover {
+    background: var(--accent-glow, rgba(99, 102, 241, 0.15));
+    border-color: var(--accent, #6366f1);
+    color: var(--accent, #6366f1);
+    transform: translateY(-1px);
+}
+
+/* Control buttons */
+.controlBtn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--bg-card, rgba(255, 255, 255, 0.06));
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+.controlBtn:hover {
+    background: var(--bg-hover, rgba(255, 255, 255, 0.1));
+    border-color: var(--border-hover, rgba(255, 255, 255, 0.15));
+    transform: translateY(-2px);
+}
+
+.controlOff {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.25);
+    color: #f87171;
+}
+
+.controlOff:hover {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+/* Leave button */
+.leaveBtn {
+    background: #ef4444;
+    border: none;
+    box-shadow: 0 3px 12px rgba(239, 68, 68, 0.3);
+}
+
+.leaveBtn:hover {
+    background: #dc2626;
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.45);
+}
+
+.chatActive {
+    background: var(--accent-glow, rgba(99, 102, 241, 0.2));
+    border-color: var(--accent, #6366f1);
+    color: var(--accent, #6366f1);
+}
+
+/* Badge */
+.unreadBadge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 18px;
+    height: 18px;
+    background: #ef4444;
+    border-radius: 10px;
+    font-size: 0.55rem;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    animation: pop 0.3s ease;
+}
+
+/* Popups */
+.popupWrapper {
+    position: relative;
+}
+
+.popup {
+    position: absolute;
+    bottom: 58px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 4px;
+    padding: 8px 10px;
+    background: var(--bg-secondary, #111118);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    animation: pop 0.2s ease;
+    white-space: nowrap;
+}
+
+.emojiOption {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: transparent;
+    font-size: 1.15rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    border: none;
+}
+
+.emojiOption:hover {
+    background: var(--bg-hover);
+    transform: scale(1.3);
+}
+
+/* Theme popup */
+.themePopup {
+    flex-direction: column;
+    gap: 3px;
+    min-width: 130px;
+}
+
+.themeOption {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    color: var(--text-primary, white);
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.themeOption:hover {
+    background: var(--bg-hover);
+}
+
+.themeActive {
+    background: var(--accent-glow, rgba(99, 102, 241, 0.15));
+    border: 1px solid var(--accent, #6366f1);
+}
+
+/* Divider */
+.divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.08);
+    margin: 0 4px;
+}
+
+/* Couple feature buttons */
+.coupleBtn {
+    background: rgba(244, 114, 182, 0.06);
+    border-color: rgba(244, 114, 182, 0.12);
+}
+
+.coupleBtn:hover {
+    background: rgba(244, 114, 182, 0.18) !important;
+    border-color: rgba(244, 114, 182, 0.35) !important;
+    transform: translateY(-2px) scale(1.08);
+    box-shadow: 0 4px 18px rgba(244, 114, 182, 0.2);
+}
+
+/* Game popup */
+.gamePopup {
+    flex-direction: column;
+    gap: 3px;
+    min-width: 160px;
+}
+
+.gameOption {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    color: var(--text-primary, white);
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.gameOption:hover {
+    background: var(--bg-hover, rgba(255, 255, 255, 0.08));
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .controlsBar {
+        padding: 8px 10px;
+        height: 56px;
+    }
+
+    .controlBtn {
+        width: 42px;
+        height: 42px;
+    }
+
+    .toolBtn {
+        width: 38px;
+        height: 38px;
+    }
+
+    .roomIdBtn {
+        display: none;
+    }
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(0.7) translateX(-50%);
+        opacity: 0;
+    }
+
+    70% {
+        transform: scale(1.05) translateX(-50%);
+    }
+
+    100% {
+        transform: scale(1) translateX(-50%);
+        opacity: 1;
+    }
+}
