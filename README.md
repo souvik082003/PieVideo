@@ -1,4 +1,4 @@
-# PieVideo 🥧📹
+# PieVideo
 
 **Connect Deeply, Play Freely.**
 PieVideo is a feature-rich, real-time video calling application designed for couples and close friends. Built with modern web technologies, it goes beyond simple video chat by integrating shared experiences like games, whiteboards, and watch-together functionality.
@@ -54,32 +54,10 @@ cd ../client
 npm install
 ```
 
-### 2. Configuration (Environment Variables)
 
-#### Client (`client/.env.local`)
-Create a `.env.local` file in the `client` directory with your Firebase configuration:
 
-```env
-NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
-NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=your_measurement_id
-NEXT_PUBLIC_SERVER_URL=http://localhost:5000  # Or your production server URL
-```
 
-#### Server (`server/.env`)
-Create a `.env` file in the `server` directory:
-
-```env
-PORT=5000
-JWT_SECRET=your_super_secret_jwt_key
-CLIENT_URL=http://localhost:3000  # URL of your frontend
-```
-
-### 3. Running the App
+### 2. Running the App
 
 You need to run the **Backend Server** and **Frontend Client** simultaneously.
 
