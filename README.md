@@ -92,6 +92,4 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to start usi
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
 
-This project is licensed under the MIT License.
