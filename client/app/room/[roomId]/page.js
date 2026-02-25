@@ -575,7 +575,7 @@ export default function RoomPage() {
             <LoveAnimationOverlay activeReaction={activeLoveReaction} />
             <TruthOrDare isOpen={isTruthOrDareOpen} onClose={() => setIsTruthOrDareOpen(false)} socket={socket} roomId={roomId} onForceOpen={() => setIsTruthOrDareOpen(true)} />
             <WouldYouRather isOpen={isWouldYouRatherOpen} onClose={() => setIsWouldYouRatherOpen(false)} socket={socket} roomId={roomId} myUserId={myUserId} />
-            <WatchTogether isOpen={isWatchTogetherOpen} onClose={() => setIsWatchTogetherOpen(false)} socket={socket} roomId={roomId} />
+            <WatchTogether isOpen={isWatchTogetherOpen} onClose={() => setIsWatchTogetherOpen(false)} socket={socket} roomId={roomId} myStream={myStream} remoteUsers={users} />
             <SharedWhiteboard isOpen={isWhiteboardOpen} onClose={() => setIsWhiteboardOpen(false)} socket={socket} roomId={roomId} />
             <GoodnightMode isActive={isGoodnightMode} onToggle={setIsGoodnightMode} socket={socket} roomId={roomId} />
             <Pictionary isOpen={isPictionaryOpen} onClose={() => setIsPictionaryOpen(false)} socket={socket} roomId={roomId} />

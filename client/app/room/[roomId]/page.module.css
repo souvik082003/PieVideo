@@ -222,16 +222,108 @@
     }
 }
 
-/* Responsive */
+/* Responsive — iPad */
+@media (max-width: 1024px) {
+    .videoAreaShift {
+        margin-right: 320px;
+    }
+
+    .pipShift {
+        right: 336px;
+    }
+}
+
+/* Responsive — Tablet/Small */
 @media (max-width: 768px) {
     .videoAreaShift {
         margin-right: 0;
     }
 
     .pipContainer {
-        width: 160px;
-        height: 120px;
+        width: 140px;
+        height: 100px;
         bottom: 74px;
-        right: 10px;
+        right: 8px;
+        border-radius: 12px;
+    }
+
+    .pipShift {
+        right: 8px;
+    }
+
+    .pipContainer:hover {
+        transform: none;
+    }
+
+    .videoArea {
+        padding: 6px;
+        padding-bottom: 72px;
+    }
+
+    .remoteVideos[data-count="2"] {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+
+    .waitingOverlay {
+        bottom: 16px;
+        padding: 12px 20px;
+        border-radius: 12px;
+    }
+
+    .statusCard {
+        padding: 28px 24px;
+        border-radius: 18px;
+    }
+
+    .statusTitle {
+        font-size: 1.1rem;
+    }
+}
+
+/* Responsive — Phones */
+@media (max-width: 480px) {
+    .roomContainer {
+        height: 100dvh;
+        /* dynamic viewport height for notched phones */
+    }
+
+    .videoArea {
+        padding: 4px;
+        padding-bottom: 68px;
+    }
+
+    .pipContainer {
+        width: 110px;
+        height: 80px;
+        bottom: 70px;
+        right: 6px;
+        border-radius: 10px;
+    }
+
+    .remoteVideos {
+        gap: 4px;
+    }
+
+    .remoteVideos[data-count="3"],
+    .remoteVideos[data-count="4"] {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .waitingOverlay {
+        bottom: 10px;
+        font-size: 0.82rem;
+        padding: 10px 16px;
+    }
+
+    .statusCard {
+        padding: 24px 20px;
+        max-width: 95%;
+    }
+
+    .retryBtn,
+    .backBtn {
+        padding: 10px 18px;
+        font-size: 13px;
     }
 }

@@ -1,4 +1,4 @@
-/* ===== SHARED WHITEBOARD ===== */
+/* ===== EXCALIDRAW WHITEBOARD ===== */
 
 .overlay {
     position: fixed;
@@ -7,22 +7,24 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
     animation: wbFadeIn 0.2s ease;
 }
 
 .container {
-    width: 92vw;
-    height: 85vh;
-    max-width: 1200px;
+    width: 96vw;
+    height: 92vh;
+    max-width: 1600px;
     background: #111118;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+    box-shadow:
+        0 24px 80px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset;
     animation: wbSlideUp 0.3s ease;
 }
 
@@ -31,15 +33,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 24px;
+    padding: 12px 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .header h3 {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     color: white;
+    margin: 0;
 }
 
 .headerActions {
@@ -48,8 +52,8 @@
 }
 
 .actionBtn {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(255, 255, 255, 0.04);
@@ -62,13 +66,13 @@
 }
 
 .actionBtn:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.1);
     transform: translateY(-1px);
 }
 
 .closeBtn {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border-radius: 10px;
     border: 1px solid rgba(239, 68, 68, 0.15);
     background: rgba(239, 68, 68, 0.08);
@@ -82,123 +86,54 @@
 }
 
 .closeBtn:hover {
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(239, 68, 68, 0.18);
 }
 
-/* Toolbar */
-.toolbar {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 12px 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    flex-shrink: 0;
-    flex-wrap: wrap;
-}
-
-.toolGroup {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 0 8px;
-    border-right: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.toolGroup:last-child {
-    border-right: none;
-}
-
-.toolBtn {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    border: 1px solid transparent;
-    background: rgba(255, 255, 255, 0.04);
-    font-size: 1.1rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-}
-
-.toolBtn:hover {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.toolActive {
-    border-color: var(--accent, #6366f1);
-    background: rgba(99, 102, 241, 0.12);
-    box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
-}
-
-/* Color buttons */
-.colorBtn {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.colorBtn:hover {
-    transform: scale(1.15);
-}
-
-.colorActive {
-    border-color: white;
-    transform: scale(1.2);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-}
-
-/* Size buttons */
-.sizeBtn {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    background: rgba(255, 255, 255, 0.04);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-}
-
-.sizeBtn:hover {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.sizeActive {
-    border-color: var(--accent, #6366f1);
-    background: rgba(99, 102, 241, 0.12);
-}
-
-/* Canvas */
-.canvasArea {
+/* Excalidraw Wrapper */
+.excalidrawWrapper {
     flex: 1;
     position: relative;
     overflow: hidden;
+    border-radius: 0 0 20px 20px;
 }
 
-.canvas {
-    width: 100%;
+/* Override some Excalidraw defaults to match our dark theme */
+.excalidrawWrapper :global(.excalidraw) {
+    --color-primary: #6366f1;
+    --color-primary-darker: #4f46e5;
+    --color-primary-darkest: #4338ca;
+    --color-primary-light: #818cf8;
+}
+
+.excalidrawWrapper :global(.excalidraw .App-menu_top) {
+    z-index: 10;
+}
+
+/* Loading state */
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     height: 100%;
-    display: block;
-    cursor: crosshair;
-    touch-action: none;
+    gap: 16px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.95rem;
+}
+
+.loadingSpinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: #6366f1;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
 }
 
 /* Animations */
 @keyframes wbFadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @keyframes wbSlideUp {
@@ -206,23 +141,29 @@
         opacity: 0;
         transform: translateY(30px) scale(0.96);
     }
-
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
 }
 
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .container {
-        width: 98vw;
-        height: 90vh;
-        border-radius: 16px;
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
     }
 
-    .toolbar {
-        gap: 10px;
+    .excalidrawWrapper {
+        border-radius: 0;
+    }
+
+    .header {
         padding: 10px 14px;
     }
 }

@@ -5,6 +5,7 @@ export const metadata = {
     title: 'PieVideo — Focus & Connect',
     description: 'Video calls built for productivity. Study together, focus together, achieve together.',
     icons: { icon: '/pie_logo.svg' },
+    viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
 };
 
 export default function RootLayout({ children }) {

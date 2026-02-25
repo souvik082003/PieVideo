@@ -266,6 +266,10 @@ io.on('connection', (socket) => {
     if (!data.roomId) return;
     socket.to(data.roomId).emit('receive-watch', data);
   });
+  socket.on('send-watch-reaction', (data) => {
+    if (!data.roomId) return;
+    socket.to(data.roomId).emit('receive-watch-reaction', data);
+  });
 
   // ----- SHARED WHITEBOARD -----
   socket.on('send-draw', (data) => {
@@ -275,6 +279,11 @@ io.on('connection', (socket) => {
   socket.on('send-clear-canvas', (data) => {
     if (!data.roomId) return;
     socket.to(data.roomId).emit('receive-clear-canvas', data);
+  });
+  // Excalidraw collaborative scene sync
+  socket.on('send-excalidraw-scene', (data) => {
+    if (!data.roomId) return;
+    socket.to(data.roomId).emit('receive-excalidraw-scene', data);
   });
 
   // ----- GOODNIGHT MODE -----
