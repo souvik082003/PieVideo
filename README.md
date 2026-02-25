@@ -26,7 +26,6 @@
   </p>
 
   <p>
-    <a href="#-getting-started"><b>🚀 Getting Started</b></a> •
     <a href="#-key-features"><b>✨ Features</b></a> •
     <a href="#-tech-stack"><b>🛠️ Tech Stack</b></a> •
     <a href="#-contributing"><b>🤝 Contributing</b></a>
@@ -81,84 +80,7 @@ PieVideo is built with a highly optimized, modern JavaScript stack bridging the 
 
 <br />
 
-## 🚀 Getting Started
 
-Follow these steps to set up PieVideo on your local machine.
-
-### Prerequisites
-- [Node.js](https://nodejs.org/) (v18 or higher recommended)
-- A [Firebase](https://firebase.google.com/) project (for Auth, Firestore, and Storage)
-
-### 1. Clone the repository and install dependencies
-
-```bash
-# Clone the repository
-git clone https://github.com/your-username/PieVideo.git
-cd PieVideo
-
-# Install Backend Dependencies
-cd server
-npm install
-
-# Install Frontend Dependencies
-cd ../client
-npm install
-```
-
-### 2. Environment Variables
-
-You need to set up environment variables for both the client and the server.
-
-#### Client (`client/.env.local`)
-Create a `.env.local` file inside the `client` folder and add your Firebase config:
-
-```env
-NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
-NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=your_measurement_id
-
-# Backend Server URL
-NEXT_PUBLIC_SERVER_URL=http://localhost:5000 
-```
-
-#### Server (`server/.env`)
-Create a `.env` file inside the `server` folder:
-
-```env
-PORT=5000
-JWT_SECRET=your_super_secret_jwt_key
-CLIENT_URL=http://localhost:3000
-```
-
-### 3. Run the Development Servers
-
-
-
-### 2. Running the App
-
-You need to run the **Backend Server** and **Frontend Client** simultaneously.
-
-You must run both the backend Express server and the frontend Next.js app simultaneously.
-
-**Terminal 1 (Backend Server):**
-```bash
-cd server
-npm run dev # or node server.js
-```
-
-**Terminal 2 (Frontend Client):**
-```bash
-cd client
-npm run dev
-```
-
-Open your browser and navigate to **[http://localhost:3000](http://localhost:3000)** to start your first call! 🎉
-
-<br />
 
 ## 📂 Project Structure
 
