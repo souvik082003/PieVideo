@@ -2,12 +2,13 @@
   <br />
   <img src="./client/public/pie_logo.svg" alt="PieVideo Logo" width="160" />
   <br />
+  
 # PieVideo
 
   <h1><i>PieVideo — Connect Deeply, Play Freely.</i></h1>
 
   <p>
-    <a href="https://github.com/yourusername/PieVideo/releases"><img src="https://img.shields.io/badge/VERSION-2.4.0-3b82f6?style=for-the-badge&logoColor=white" alt="Version" /></a>
+    <a href="https://github.com/yourusername/PieVideo/releases"><img src="https://img.shields.io/badge/VERSION-1.1.0-3b82f6?style=for-the-badge&logoColor=white" alt="Version" /></a>
     <a href="https://github.com/yourusername/PieVideo/blob/master/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-10b981?style=for-the-badge&logoColor=white" alt="License" /></a>
     <img src="https://img.shields.io/badge/NEXT.JS-14-black?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js" />
     <img src="https://img.shields.io/badge/REACT-18-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
