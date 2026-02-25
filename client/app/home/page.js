@@ -13,15 +13,7 @@ import {
 import Image from 'next/image';
 import styles from './page.module.css';
 
-const MOODS = [
-    { emoji: '😊', label: 'Happy' },
-    { emoji: '😍', label: 'In Love' },
-    { emoji: '😢', label: 'Sad' },
-    { emoji: '😴', label: 'Tired' },
-    { emoji: '🥰', label: 'Missing You' },
-];
 
-const MILESTONES = [50, 100, 150, 200, 250, 300, 365, 500, 730, 1000];
 
 export default function HomePage() {
     const [joinId, setJoinId] = useState('');
@@ -30,9 +22,6 @@ export default function HomePage() {
     const router = useRouter();
 
     // Couple features state
-    const [anniversaryDate, setAnniversaryDate] = useState(null);
-    const [daysCount, setDaysCount] = useState(0);
-    const [currentMood, setCurrentMood] = useState(null);
     const [callHistory, setCallHistory] = useState([]);
     const [totalCallMinutes, setTotalCallMinutes] = useState(0);
 
@@ -48,9 +37,7 @@ export default function HomePage() {
     const [chatInput, setChatInput] = useState('');
     const chatEndRef = useRef(null);
 
-    // Anniversary popup
-    const [showAnniversary, setShowAnniversary] = useState(false);
-    const [milestoneDay, setMilestoneDay] = useState(0);
+
 
     useEffect(() => {
         if (!loading && !user) router.push('/');
@@ -62,25 +49,7 @@ export default function HomePage() {
         const loadUserData = async () => {
             try {
                 const userDoc = await getDoc(doc(db, 'users', user.uid));
-                if (userDoc.exists()) {
-                    const data = userDoc.data();
-                    if (data.anniversaryDate) {
-                        setAnniversaryDate(data.anniversaryDate);
-                        const start = new Date(data.anniversaryDate);
-                        const now = new Date();
-                        const days = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-                        setDaysCount(days);
-                        // Check milestone
-                        const dismissed = data.dismissedMilestones || [];
-                        const milestone = MILESTONES.find(m => m === days && !dismissed.includes(m));
-                        if (milestone) {
-                            setMilestoneDay(milestone);
-                            setShowAnniversary(true);
-                        }
-                    }
-                    if (data.currentMood) setCurrentMood(data.currentMood);
-                } else {
-                    // Create user doc
+                if (!userDoc.exists()) {
                     await setDoc(doc(db, 'users', user.uid), {
                         email: user.email,
                         displayName: user.displayName || user.email?.split('@')[0],
@@ -183,25 +152,7 @@ export default function HomePage() {
         router.push('/');
     };
 
-    // Set anniversary date
-    const handleSetDate = async (dateStr) => {
-        setAnniversaryDate(dateStr);
-        const start = new Date(dateStr);
-        const now = new Date();
-        const days = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-        setDaysCount(days);
-        try {
-            await setDoc(doc(db, 'users', user.uid), { anniversaryDate: dateStr }, { merge: true });
-        } catch (err) { console.warn('Save date failed:', err); }
-    };
 
-    // Set mood
-    const handleSetMood = async (mood) => {
-        setCurrentMood(mood);
-        try {
-            await setDoc(doc(db, 'users', user.uid), { currentMood: mood }, { merge: true });
-        } catch (err) { console.warn('Save mood failed:', err); }
-    };
 
     // Send friend request
     const sendFriendRequest = async () => {
@@ -272,17 +223,7 @@ export default function HomePage() {
         } catch (err) { console.warn('Decline failed:', err); }
     };
 
-    // Dismiss milestone
-    const dismissMilestone = async () => {
-        setShowAnniversary(false);
-        try {
-            const userDoc = await getDoc(doc(db, 'users', user.uid));
-            const dismissed = userDoc.data()?.dismissedMilestones || [];
-            await setDoc(doc(db, 'users', user.uid), {
-                dismissedMilestones: [...dismissed, milestoneDay]
-            }, { merge: true });
-        } catch (err) { console.warn('Dismiss milestone failed:', err); }
-    };
+
 
     // Call a friend
     const callFriend = (friend) => {
@@ -314,16 +255,15 @@ export default function HomePage() {
 
                 <div className={styles.topRight}>
                     <div className={styles.themeRow}>
-                        {Object.entries(THEMES).map(([key, t]) => (
-                            <button
-                                key={key}
-                                className={`${styles.themeBtn} ${theme === key ? styles.themeActive : ''}`}
-                                onClick={() => setTheme(key)}
-                                title={t.name}
-                            >
-                                {t.icon}
-                            </button>
-                        ))}
+                        <button className={`${styles.themeBtn} ${theme === 'light' ? styles.themeActive : ''}`} onClick={() => setTheme('light')} title="Light">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
+                        </button>
+                        <button className={`${styles.themeBtn} ${theme === 'dark' ? styles.themeActive : ''}`} onClick={() => setTheme('dark')} title="Dark">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
+                        </button>
+                        <button className={`${styles.themeBtn} ${theme === 'system' ? styles.themeActive : ''}`} onClick={() => setTheme('system')} title="System">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>
+                        </button>
                     </div>
                     <div className={styles.userInfo}>
                         <div className={styles.avatar}>{displayName.charAt(0).toUpperCase()}</div>
@@ -481,53 +421,88 @@ export default function HomePage() {
 
                 {/* RIGHT MAIN AREA */}
                 <main className={styles.main}>
+                    {/* Hero with Quick Start */}
                     <div className={styles.hero}>
                         <h1>Welcome back, <span>{displayName.split(' ')[0]}</span> 👋</h1>
-                        <p>Your couple dashboard & video calls</p>
+                        <p>Start a call, join a room, or hang out with friends</p>
+                        <button className={styles.quickStartBtn} onClick={createRoom}>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="23 7 16 12 23 17 23 7" />
+                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                            </svg>
+                            Start Instant Call
+                        </button>
                     </div>
 
-                    {/* Days Counter + Mood Check-in */}
-                    <div className={styles.coupleRow}>
-                        {/* Days Together */}
-                        <div className={styles.daysCard}>
-                            <div className={styles.daysHeart}>❤️</div>
-                            {anniversaryDate ? (
-                                <div className={styles.daysInfo}>
-                                    <h2>Together for <span>{daysCount}</span> days</h2>
-                                    <p>Since {new Date(anniversaryDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
-                                </div>
-                            ) : (
-                                <div className={styles.daysSetup}>
-                                    <p>When did your journey begin? 💕</p>
-                                    <input
-                                        type="date"
-                                        className={styles.dateInput}
-                                        onChange={e => handleSetDate(e.target.value)}
-                                        max={new Date().toISOString().split('T')[0]}
-                                    />
-                                </div>
-                            )}
+                    {/* Activity Stats Row */}
+                    <div className={styles.statsRow}>
+                        <div className={styles.statCard}>
+                            <div className={`${styles.statIcon} ${styles.statIconBlue}`}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+                            </div>
+                            <div className={styles.statInfo}>
+                                <span className={styles.statNumber}>{callHistory.length}</span>
+                                <span className={styles.statLabel}>Total Calls</span>
+                            </div>
                         </div>
-
-                        {/* Mood Check-in */}
-                        <div className={styles.moodCard}>
-                            <h3>How are you feeling? 💭</h3>
-                            <div className={styles.moodGrid}>
-                                {MOODS.map(m => (
-                                    <button
-                                        key={m.label}
-                                        className={`${styles.moodBtn} ${currentMood === m.label ? styles.moodBtnActive : ''}`}
-                                        onClick={() => handleSetMood(m.label)}
-                                    >
-                                        <span className={styles.moodEmoji}>{m.emoji}</span>
-                                        <span className={styles.moodLabel}>{m.label}</span>
-                                    </button>
-                                ))}
+                        <div className={styles.statCard}>
+                            <div className={`${styles.statIcon} ${styles.statIconPurple}`}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10" /><polyline points="12,6 12,12 16,14" /></svg>
+                            </div>
+                            <div className={styles.statInfo}>
+                                <span className={styles.statNumber}>{formatDuration(totalCallMinutes)}</span>
+                                <span className={styles.statLabel}>Call Time</span>
+                            </div>
+                        </div>
+                        <div className={styles.statCard}>
+                            <div className={`${styles.statIcon} ${styles.statIconGreen}`}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                            </div>
+                            <div className={styles.statInfo}>
+                                <span className={styles.statNumber}>{friends.length}</span>
+                                <span className={styles.statLabel}>Friends</span>
                             </div>
                         </div>
                     </div>
 
+                    {/* Room Templates */}
+                    <div className={styles.sectionHeader}>
+                        <h2>Quick Rooms</h2>
+                        <p>Jump into a preset experience</p>
+                    </div>
+                    <div className={styles.templateGrid}>
+                        {[
+                            { name: 'Study Session', emoji: '📚', desc: 'Focus timer & shared tasks', gradient: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)' },
+                            { name: 'Movie Night', emoji: '🎬', desc: 'Watch together & react', gradient: 'linear-gradient(135deg, #ec4899 0%, #be185d 100%)' },
+                            { name: 'Game Night', emoji: '🎮', desc: 'Play games & have fun', gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' },
+                            { name: 'Casual Chat', emoji: '☕', desc: 'Just hang out & talk', gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' },
+                        ].map((tmpl, i) => (
+                            <div
+                                key={tmpl.name}
+                                className={styles.templateCard}
+                                style={{ '--tmpl-gradient': tmpl.gradient, animationDelay: `${i * 0.08}s` }}
+                                onClick={() => {
+                                    const id = uuidv4();
+                                    sessionStorage.setItem('userName', displayName);
+                                    sessionStorage.setItem('roomType', tmpl.name);
+                                    window.location.href = `/room/${id}`;
+                                }}
+                            >
+                                <div className={styles.templateEmoji}>{tmpl.emoji}</div>
+                                <div className={styles.templateInfo}>
+                                    <h4>{tmpl.name}</h4>
+                                    <p>{tmpl.desc}</p>
+                                </div>
+                                <svg className={styles.templateArrow} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                            </div>
+                        ))}
+                    </div>
+
                     {/* Create / Join Room */}
+                    <div className={styles.sectionHeader}>
+                        <h2>Custom Room</h2>
+                        <p>Create or join with a room code</p>
+                    </div>
                     <div className={styles.actions}>
                         <div className={styles.actionCard} onClick={createRoom}>
                             <div className={styles.cardIcon}>
@@ -568,10 +543,10 @@ export default function HomePage() {
                     {/* Call History */}
                     <div className={styles.callHistoryCard}>
                         <div className={styles.callHistoryHeader}>
-                            <h3>📞 Call History</h3>
-                            <span className={styles.totalHours}>
-                                ❤️ {formatDuration(totalCallMinutes)} together
-                            </span>
+                            <h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+                                Recent Activity
+                            </h3>
                         </div>
                         <div className={styles.callList}>
                             {callHistory.length === 0 ? (
@@ -579,7 +554,9 @@ export default function HomePage() {
                             ) : (
                                 callHistory.slice(0, 10).map(call => (
                                     <div key={call.id} className={styles.callItem}>
-                                        <div className={styles.callIcon}>📞</div>
+                                        <div className={styles.callIcon}>
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polygon points="23 7 16 12 23 17 23 7" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" /></svg>
+                                        </div>
                                         <div className={styles.callDetails}>
                                             <div className={styles.callPartner}>{call.partnerName || 'Video Call'}</div>
                                             <div className={styles.callDate}>
@@ -595,19 +572,7 @@ export default function HomePage() {
                 </main>
             </div>
 
-            {/* Anniversary Popup */}
-            {showAnniversary && (
-                <div className={styles.anniversaryOverlay} onClick={dismissMilestone}>
-                    <div className={styles.anniversaryCard} onClick={e => e.stopPropagation()}>
-                        <div className={styles.anniversaryEmoji}>🎉</div>
-                        <h2>Happy <span>{milestoneDay} Days</span> Together!</h2>
-                        <p>Every day with you is a celebration. Here's to many more beautiful moments together! 💕</p>
-                        <button className={styles.anniversaryDismiss} onClick={dismissMilestone}>
-                            Thank You! ❤️
-                        </button>
-                    </div>
-                </div>
-            )}
+
         </div>
     );
 }
