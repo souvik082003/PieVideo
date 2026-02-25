@@ -2,6 +2,7 @@
   <br />
   <img src="./client/public/pie_logo.svg" alt="PieVideo Logo" width="160" />
   <br />
+# PieVideo
 
   <h1><i>PieVideo — Connect Deeply, Play Freely.</i></h1>
 
@@ -134,6 +135,12 @@ CLIENT_URL=http://localhost:3000
 
 ### 3. Run the Development Servers
 
+
+
+### 2. Running the App
+
+You need to run the **Backend Server** and **Frontend Client** simultaneously.
+
 You must run both the backend Express server and the frontend Next.js app simultaneously.
 
 **Terminal 1 (Backend Server):**
@@ -182,7 +189,6 @@ Contributions are what make the open-source community such an amazing place to l
 
 <br />
 
-## 📄 License
 
 Distributed under the **MIT License**. See `LICENSE` for more information.
 
