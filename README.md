@@ -2,12 +2,16 @@
   <br />
   <img src="./client/public/pie_logo.svg" alt="PieVideo Logo" width="160" />
   <br />
+  
+# PieVideo
 
   <h1><i>PieVideo — Connect Deeply, Play Freely.</i></h1>
 
   <p>
     <a href="https://github.com/souvik082003/PieVideo/releases"><img src="https://img.shields.io/badge/VERSION-2.4.0-3b82f6?style=for-the-badge&logoColor=white" alt="Version" /></a>
     <a href="https://github.com/souvik082003/PieVideo/blob/master/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-10b981?style=for-the-badge&logoColor=white" alt="License" /></a>
+    <a href="https://github.com/yourusername/PieVideo/releases"><img src="https://img.shields.io/badge/VERSION-1.1.0-3b82f6?style=for-the-badge&logoColor=white" alt="Version" /></a>
+    <a href="https://github.com/yourusername/PieVideo/blob/master/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-10b981?style=for-the-badge&logoColor=white" alt="License" /></a>
     <img src="https://img.shields.io/badge/NEXT.JS-14-black?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js" />
     <img src="https://img.shields.io/badge/REACT-18-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
     <br />
@@ -95,6 +99,17 @@ PieVideo utilizes a highly optimized JavaScript stack, bridging the frontend cli
 - **Framework**: `Express.js`
 - **Real-Time Engine**: `Socket.IO` v4 (Handling all WebRTC signaling data, synced game state, chat delivery, and live Excalidraw drawing points)
 - **Peer-to-Peer Video**: `WebRTC` (Facilitated safely by `simple-peer`)
+- **Real-Time Data**: `Socket.IO` (Signaling & Events)
+- **Peer-to-Peer Video**: `WebRTC` (`simple-peer`)
+
+### **Authentication & Database**
+- **Database**: `Firebase Firestore`
+- **Auth**: `Firebase Authentication`
+- **Storage**: `Firebase Storage`
+
+<br />
+
+
 
 ### **Authentication & Persistence**
 - **Database**: `Firebase Firestore` (For user profiles, friend lists, and call history tracking)
@@ -114,7 +129,6 @@ Contributions are what make the open-source community such an amazing place to l
 
 <br />
 
-## 📄 License
 
 Distributed under the **MIT License**. See `LICENSE` for more information.
 
