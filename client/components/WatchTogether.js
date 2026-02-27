@@ -27,6 +27,21 @@ function isValidUrl(str) {
 }
 
 /**
+ * Build a safe embed src from a validated YouTube ID or a sanitized generic URL.
+ * Breaks the taint chain so CodeQL sees explicit validation at the output.
+ */
+function buildSafeEmbedSrc(vid, url) {
+    if (vid) {
+        const origin = typeof window !== 'undefined' ? window.location.origin : '';
+        return `https://www.youtube.com/embed/${vid}?autoplay=1&rel=0&modestbranding=1&enablejsapi=1&origin=${origin}`;
+    }
+    if (url) {
+        return sanitizeEmbedUrl(url);
+    }
+    return null;
+}
+
+/**
  * Sanitize a user-provided URL for use as an iframe src.
  * Returns a normalized http(s) URL string, or null if invalid/unsafe.
  */
@@ -701,10 +716,8 @@ export default function WatchTogether({ isOpen, onClose, socket, roomId, myStrea
     const hasContent = videoId || genericUrl || screenStream;
     const isYouTube = !!videoId;
     const isScreenShare = !!screenStream;
-    // Build the embed URL — always use iframe (this worked before!)
-    const embedSrc = videoId
-        ? `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`
-        : genericUrl;
+    // Build the embed URL — always use iframe, but ensure it is safely constructed.
+    const embedSrc = buildSafeEmbedSrc(videoId, genericUrl);
 
     if (!isOpen && !hasContent) return null;
 
@@ -791,12 +804,14 @@ export default function WatchTogether({ isOpen, onClose, socket, roomId, myStrea
                 {isScreenShare ? (
                     <video ref={screenVideoRef} autoPlay playsInline muted className={styles.miniIframe} />
                 ) : (
-                    <iframe
-                        src={embedSrc}
-                        className={styles.miniIframe}
-                        allow="autoplay; encrypted-media"
-                        allowFullScreen
-                    />
+                    embedSrc && (
+                        <iframe
+                            src={embedSrc}
+                            className={styles.miniIframe}
+                            allow="autoplay; encrypted-media"
+                            allowFullScreen
+                        />
+                    )
                 )}
                 <button className={styles.miniClose} onClick={isScreenShare ? stopScreenShare : stopVideo}>✕</button>
                 <button className={styles.miniExpand} onClick={() => setIsTheaterMode(true)} title="Theater Mode">
@@ -864,13 +879,15 @@ export default function WatchTogether({ isOpen, onClose, socket, roomId, myStrea
                                 className={styles.theaterIframe}
                             />
                         ) : (
-                            <iframe
-                                ref={iframeRef}
-                                src={embedSrc}
-                                className={styles.theaterIframe}
-                                allow="autoplay; encrypted-media; fullscreen"
-                                allowFullScreen
-                            />
+                            embedSrc && (
+                                <iframe
+                                    ref={iframeRef}
+                                    src={embedSrc}
+                                    className={styles.theaterIframe}
+                                    allow="autoplay; encrypted-media; fullscreen"
+                                    allowFullScreen
+                                />
+                            )
                         )}
                         <BufferingOverlay />
                     </div>
@@ -1009,13 +1026,15 @@ export default function WatchTogether({ isOpen, onClose, socket, roomId, myStrea
                 ) : (
                     <div className={styles.videoArea}>
                         <div className={styles.videoWrapper}>
-                            <iframe
-                                ref={iframeRef}
-                                src={embedSrc}
-                                className={styles.videoIframe}
-                                allow="autoplay; encrypted-media; fullscreen"
-                                allowFullScreen
-                            />
+                            {embedSrc && (
+                                <iframe
+                                    ref={iframeRef}
+                                    src={embedSrc}
+                                    className={styles.videoIframe}
+                                    allow="autoplay; encrypted-media; fullscreen"
+                                    allowFullScreen
+                                />
+                            )}
                             <BufferingOverlay />
                         </div>
                         <div className={styles.videoControls}>
