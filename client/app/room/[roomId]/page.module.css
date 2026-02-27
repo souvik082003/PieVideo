@@ -68,6 +68,16 @@
     cursor: grab;
 }
 
+/* Mirror the local video in PiP so right hand = right side */
+.pipContainer video {
+    transform: scaleX(-1) !important;
+}
+
+/* Mirror solo view local video too */
+.soloView video {
+    transform: scaleX(-1) !important;
+}
+
 .pipContainer:hover {
     transform: scale(1.04);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 0 2px var(--accent, rgba(99, 102, 241, 0.3));

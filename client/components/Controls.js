@@ -8,7 +8,7 @@ export default function Controls({
     isVideoOn, isAudioOn, roomId,
     toggleChat, isChatOpen, unreadCount,
     onTimerToggle, onTodoToggle,
-    onLoveReaction, onTruthOrDare, onWouldYouRather, onWatchTogether, onWhiteboard, onPictionary
+    onPresentation, onTruthOrDare, onWouldYouRather, onWatchTogether, onWhiteboard, onPictionary
 }) {
     const [isGameOpen, setIsGameOpen] = useState(false);
     const [isMoreOpen, setIsMoreOpen] = useState(false);
@@ -80,10 +80,14 @@ export default function Controls({
 
                 {/* Pill 2: Features */}
                 <div className={styles.pill}>
-                    {/* Love */}
-                    <button className={styles.pillBtn} onClick={() => { closeAll(); onLoveReaction?.(); }} title="Love Reactions">
+                    {/* Presentation Mode */}
+                    <button className={styles.pillBtn} onClick={() => { closeAll(); onPresentation?.(); }} title="Presentation Mode">
                         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                            <polyline points="9 10 12 7 15 10" />
+                            <line x1="12" y1="7" x2="12" y2="14" />
+                            <line x1="8" y1="21" x2="16" y2="21" />
+                            <line x1="12" y1="17" x2="12" y2="21" />
                         </svg>
                     </button>
 

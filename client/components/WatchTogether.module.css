@@ -190,6 +190,7 @@
 .videoControls {
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
 }
 
 .stopBtn,
@@ -426,16 +427,85 @@
     border: none;
 }
 
-/* Participant sidebar */
-.theaterSidebar {
-    width: 180px;
+/* Right panel: participants + chat */
+.theaterRightPanel {
+    display: flex;
+    flex-direction: column;
+    width: 260px;
     background: rgba(10, 10, 18, 0.95);
     border-left: 1px solid rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+}
+
+/* Participant sidebar */
+.theaterSidebar {
     display: flex;
     flex-direction: column;
     gap: 4px;
     padding: 8px;
     overflow-y: auto;
+    flex-shrink: 0;
+}
+
+/* Theater chat */
+.theaterChat {
+    flex: 1;
+    min-height: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.theaterChat>div {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    animation: none !important;
+    transform: none !important;
+}
+
+/* ===== SCREEN SHARE ===== */
+.screenShareSection {
+    margin: 12px 0 16px;
+    text-align: center;
+}
+
+.screenShareBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.screenShareBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+}
+
+.screenShareBtn:active {
+    transform: scale(0.97);
+}
+
+.screenShareHint {
+    color: #666;
+    font-size: 0.72rem;
+    margin-top: 8px;
+    line-height: 1.4;
 }
 
 .theaterTile {
@@ -535,6 +605,188 @@
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
 }
 
+/* ==================================================
+   SYNC STATUS — Badge, Leader, Quality
+   ================================================== */
+
+/* Sync status badge */
+.syncBadge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    flex-shrink: 0;
+}
+
+.syncDot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.syncDotIdle {
+    background: #666;
+}
+
+.syncDotSynced {
+    background: #22c55e;
+    box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
+    animation: syncPulse 2s ease infinite;
+}
+
+.syncDotSyncing {
+    background: #eab308;
+    box-shadow: 0 0 6px rgba(234, 179, 8, 0.5);
+    animation: syncPulse 1s ease infinite;
+}
+
+.syncDotBuffering {
+    background: #ef4444;
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.5);
+    animation: syncPulse 0.6s ease infinite;
+}
+
+.syncLabel {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+}
+
+/* Leader badge */
+.leaderBadge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 3px 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Quality selector */
+.qualitySelect {
+    padding: 5px 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 24px;
+}
+
+.qualitySelect:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.qualitySelect option {
+    background: #1a1a2e;
+    color: #fff;
+}
+
+/* Sync seek controls */
+.syncControls {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.syncControlBtn {
+    padding: 5px 10px;
+    border-radius: 8px;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    color: #a5b4fc;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.syncControlBtn:hover {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+/* ==================================================
+   BUFFERING OVERLAY
+   ================================================== */
+
+.bufferingOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    border-radius: 14px;
+    animation: fadeIn 0.3s ease;
+}
+
+.bufferingContent {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.bufferingContent p {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+.bufferingSpinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid rgba(255, 255, 255, 0.15);
+    border-top-color: #6366f1;
+    border-radius: 50%;
+    margin: 0 auto;
+    animation: spin 0.8s linear infinite;
+}
+
+/* ==================================================
+   YOUTUBE PLAYER WRAPPER
+   ================================================== */
+
+.ytPlayerWrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.ytPlayerContainer {
+    width: 100%;
+    height: 100%;
+}
+
+.ytPlayerWrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 0;
+}
+
 /* ===== ANIMATIONS ===== */
 @keyframes fadeIn {
     from {
@@ -586,10 +838,32 @@
     }
 }
 
+@keyframes syncPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-    .theaterSidebar {
-        width: 120px;
+    .theaterRightPanel {
+        width: 180px;
+    }
+
+    .theaterChat {
+        display: none;
     }
 
     .theaterBtn {
@@ -602,6 +876,14 @@
         height: 36px;
         font-size: 1.1rem;
     }
+
+    .syncControls {
+        display: none;
+    }
+
+    .qualitySelect {
+        max-width: 70px;
+    }
 }
 
 @media (max-width: 550px) {
@@ -609,7 +891,7 @@
         flex-direction: column;
     }
 
-    .theaterSidebar {
+    .theaterRightPanel {
         width: 100%;
         flex-direction: row;
         border-left: none;
@@ -618,10 +900,28 @@
         overflow-x: auto;
     }
 
+    .theaterSidebar {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .theaterChat {
+        display: none;
+    }
+
     .theaterTile {
         aspect-ratio: auto;
         width: 100px;
         height: 75px;
         flex-shrink: 0;
+    }
+
+    .videoControls {
+        flex-wrap: wrap;
+    }
+
+    .screenShareBtn {
+        font-size: 0.78rem;
+        padding: 10px 18px;
     }
 }

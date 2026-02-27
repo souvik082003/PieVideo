@@ -16,9 +16,9 @@
     display: block;
 }
 
-/* Non-mirrored — true view */
+/* Mirrored — natural mirror view */
 .videoLocal {
-    /* Do NOT apply scaleX(-1) — user sees what others see */
+    transform: scaleX(-1);
 }
 
 /* Name tag */
