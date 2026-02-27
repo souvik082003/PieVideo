@@ -270,6 +270,31 @@ io.on('connection', (socket) => {
     if (!data.roomId) return;
     socket.to(data.roomId).emit('receive-watch-reaction', data);
   });
+  // Precise sync: play/pause/seek/quality commands with timestamps
+  socket.on('send-watch-sync', (data) => {
+    if (!data.roomId) return;
+    socket.to(data.roomId).emit('receive-watch-sync', data);
+  });
+  // Heartbeat: leader broadcasts playback position every ~2s for drift correction
+  socket.on('send-watch-heartbeat', (data) => {
+    if (!data.roomId) return;
+    socket.to(data.roomId).emit('receive-watch-heartbeat', data);
+  });
+  // Buffer coordination: peers report buffer state so all can pause/resume together
+  socket.on('send-watch-buffer', (data) => {
+    if (!data.roomId) return;
+    socket.to(data.roomId).emit('receive-watch-buffer', data);
+  });
+
+  // ----- PRESENTATION MODE -----
+  socket.on('send-presentation', (data) => {
+    if (!data.roomId) return;
+    socket.to(data.roomId).emit('receive-presentation', data);
+  });
+  socket.on('send-presentation-cmd', (data) => {
+    if (!data.roomId) return;
+    socket.to(data.roomId).emit('receive-presentation-cmd', data);
+  });
 
   // ----- SHARED WHITEBOARD -----
   socket.on('send-draw', (data) => {

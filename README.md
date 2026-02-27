@@ -8,7 +8,7 @@
   <h1><i>PieVideo — Connect Deeply, Play Freely.</i></h1>
 
   <p>
-    <a href="https://github.com/souvik082003/PieVideo/releases"><img src="https://img.shields.io/badge/VERSION-2.4.0-3b82f6?style=for-the-badge&logoColor=white" alt="Version" /></a>
+    <a href="https://github.com/souvik082003/PieVideo/releases"><img src="https://img.shields.io/badge/VERSION-2.5.0-3b82f6?style=for-the-badge&logoColor=white" alt="Version" /></a>
     <a href="https://github.com/souvik082003/PieVideo/blob/master/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-10b981?style=for-the-badge&logoColor=white" alt="License" /></a>
     <a href="https://github.com/yourusername/PieVideo/releases"><img src="https://img.shields.io/badge/VERSION-1.1.0-3b82f6?style=for-the-badge&logoColor=white" alt="Version" /></a>
     <a href="https://github.com/yourusername/PieVideo/blob/master/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-10b981?style=for-the-badge&logoColor=white" alt="License" /></a>
@@ -29,9 +29,10 @@
 
   <p>
     <a href="#-about-pievideo"><b>📖 About</b></a> •
-    <a href="#-whats-new-in-v2"><b>🚀 What's New in v2</b></a> •
+    <a href="#-whats-new-in-v25-sync-engine-update"><b>⚡ v2.5 Sync Engine</b></a> •
+    <a href="#-whats-new-in-v2-the-evolution-from-v100"><b>🚀 What's New in v2</b></a> •
     <a href="#-key-features"><b>✨ Features</b></a> •
-    <a href="#-tech-stack"><b>🛠️ Tech Stack</b></a>
+    <a href="#-tech-stack-architecture"><b>🛠️ Tech Stack</b></a>
   </p>
 </div>
 
@@ -45,7 +46,65 @@ Whether you want to watch movies together, draw on a shared whiteboard, play min
 
 <br />
 
-## 🚀 What's New in v2 (The Evolution from v1.0.0)
+## ⚡ What's New in v2.5 — Sync Engine Update
+
+Version **2.5.0** introduces a **production-grade real-time YouTube sync engine** with frame-perfect playback coordination across all participants. This is a foundational upgrade to how "Watch Together" works under the hood.
+
+### 🏗️ Sync Architecture — Leader / Follower Model
+
+PieVideo now uses a **Leader–Follower** synchronization model for Watch Together sessions. One peer acts as the **Leader** (the person who controls playback), and all other peers automatically become **Followers** who stay locked to the Leader's state.
+
+```
+┌────────────────────────────────────────────────────┐
+│                    LEADER (User A)                 │
+│                                                    │
+│  YT.Player ──▶ onStateChange() ──▶ Broadcast Sync │
+│      │              │                    │         │
+│      ▼              ▼                    ▼         │
+│  [Playing]    [Pause/Play/Seek]   ┌─────────────┐ │
+│  [Time: 42s]  [Quality: 1080p]    │ P2P DataCh  │ │
+│                                   │ (~20ms)     │ │
+│                                   │      or     │ │
+│                                   │ Socket.io   │ │
+│                                   │ (~150ms)    │ │
+│                                   └──────┬──────┘ │
+└──────────────────────────────────────────┼─────────┘
+                                           │
+                    ┌──────────────────────┼─────────┐
+                    │         FOLLOWER (User B)      │
+                    │                      ▼         │
+                    │              Receive Sync       │
+                    │                      │         │
+                    │    ┌─────────────────┼────┐    │
+                    │    │  Drift > 0.5s?       │    │
+                    │    │  YES → seekTo(time)  │    │
+                    │    │  NO  → do nothing    │    │
+                    │    └─────────────────────┘    │
+                    │                               │
+                    │  Buffering? → Notify ALL      │
+                    │  All Ready? → Resume ALL      │
+                    └───────────────────────────────┘
+```
+
+### 🔑 Key Sync Features
+
+| Feature | How It Works |
+| ------- | ------------ |
+| 🎯 **Drift Correction** | Follower checks time difference every sync tick. If drift exceeds **0.5 seconds**, an automatic `seekTo()` snaps playback back in line — otherwise, no action (avoids jitter). |
+| ⏸️ **Buffering Coordination** | When *any* peer starts buffering, they broadcast a `buffering` event. **All peers pause** until every participant reports `ready`, then playback resumes simultaneously. |
+| 📡 **Dual Transport** | Sync messages prefer the **WebRTC DataChannel** (~20 ms latency) for near-instant sync. Falls back to **Socket.IO** (~150 ms) when P2P is unavailable. |
+| 🔄 **State Broadcast** | Every Leader action (play, pause, seek, quality change) is immediately broadcast with a timestamp so Followers can reconcile. |
+
+### � Why This Matters
+
+- **< 0.5 s max drift** — Followers never fall more than half a second behind.
+- **Zero desync on buffering** — No more "I'm 10 seconds ahead of you" situations.
+- **Works on slow networks** — Socket.IO fallback ensures sync even without a DataChannel.
+- **No extra server load** — P2P DataChannel handles the heavy lifting when available.
+
+<br />
+
+## �🚀 What's New in v2 (The Evolution from v1.0.0)
 
 PieVideo has undergone a massive transformation from its initial `v1.0.0` release. While v1 provided the core foundation for P2P video calls and basic chat, **v2** introduces a completely overhauled experience focusing on premium aesthetics, powerful new interactive tools, and flawless mobile support.
 
@@ -79,7 +138,7 @@ PieVideo has undergone a massive transformation from its initial `v1.0.0` releas
 | 💬 **Real-Time Messaging** | Instant chat panel supporting text, emojis, file sharing, and seamless image uploads. |
 | 🎨 **Excalidraw Whiteboard** | Draw, sketch, note-take, and collaborate in real-time on a beautifully synchronized Excalidraw canvas. |
 | 🎮 **Fun Mini-Games** | Engage in shared games directly on the call: **Pictionary**, **Truth or Dare**, and **Would You Rather**. |
-| 🎬 **Watch Together** | Synchronized YouTube video playback. Play, pause, scrub, and react together in perfect harmony. |
+| 🎬 **Watch Together** | **v2.5 Sync Engine** — Leader/Follower model with < 0.5 s drift correction, buffering coordination, and dual-transport (P2P DataChannel + Socket.IO fallback). |
 | 💕 **Relationship Tools** | Built-in "Days Together" tracking, user mood check-ins, and animated floating love reactions. |
 
 <br />

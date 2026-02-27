@@ -19,6 +19,7 @@ import WatchTogether from '../../../components/WatchTogether';
 import SharedWhiteboard from '../../../components/SharedWhiteboard';
 import GoodnightMode from '../../../components/GoodnightMode';
 import Pictionary from '../../../components/Pictionary';
+import PresentationMode from '../../../components/PresentationMode';
 import styles from './page.module.css';
 import timerStyles from '../../../components/FocusTimer.module.css';
 
@@ -59,6 +60,7 @@ export default function RoomPage() {
     const [isWhiteboardOpen, setIsWhiteboardOpen] = useState(false);
     const [isGoodnightMode, setIsGoodnightMode] = useState(false);
     const [isPictionaryOpen, setIsPictionaryOpen] = useState(false);
+    const [isPresentationOpen, setIsPresentationOpen] = useState(false);
 
     // Stable userId
     const myUserIdRef = useRef(null);
@@ -575,7 +577,8 @@ export default function RoomPage() {
             <LoveAnimationOverlay activeReaction={activeLoveReaction} />
             <TruthOrDare isOpen={isTruthOrDareOpen} onClose={() => setIsTruthOrDareOpen(false)} socket={socket} roomId={roomId} onForceOpen={() => setIsTruthOrDareOpen(true)} />
             <WouldYouRather isOpen={isWouldYouRatherOpen} onClose={() => setIsWouldYouRatherOpen(false)} socket={socket} roomId={roomId} myUserId={myUserId} />
-            <WatchTogether isOpen={isWatchTogetherOpen} onClose={() => setIsWatchTogetherOpen(false)} socket={socket} roomId={roomId} myStream={myStream} remoteUsers={users} />
+            <WatchTogether isOpen={isWatchTogetherOpen} onClose={() => setIsWatchTogetherOpen(false)} socket={socket} roomId={roomId} myStream={myStream} remoteUsers={users} peersRef={peersRef} messages={messages} onSend={sendMessage} currentUserId={myUserId} />
+            <PresentationMode isOpen={isPresentationOpen} onClose={() => setIsPresentationOpen(false)} socket={socket} roomId={roomId} peersRef={peersRef} />
             <SharedWhiteboard isOpen={isWhiteboardOpen} onClose={() => setIsWhiteboardOpen(false)} socket={socket} roomId={roomId} />
             <GoodnightMode isActive={isGoodnightMode} onToggle={setIsGoodnightMode} socket={socket} roomId={roomId} />
             <Pictionary isOpen={isPictionaryOpen} onClose={() => setIsPictionaryOpen(false)} socket={socket} roomId={roomId} />
@@ -610,7 +613,7 @@ export default function RoomPage() {
                 unreadCount={unreadCount}
                 onTimerToggle={() => setIsTimerOpen(p => !p)}
                 onTodoToggle={() => setIsTodoOpen(p => !p)}
-                onLoveReaction={() => setIsLoveReactionsOpen(p => !p)}
+                onPresentation={() => setIsPresentationOpen(p => !p)}
 
                 onTruthOrDare={() => setIsTruthOrDareOpen(true)}
                 onWouldYouRather={() => setIsWouldYouRatherOpen(true)}
