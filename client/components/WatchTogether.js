@@ -26,6 +26,23 @@ function isValidUrl(str) {
     } catch { return false; }
 }
 
+/**
+ * Sanitize a user-provided URL for use as an iframe src.
+ * Returns a normalized http(s) URL string, or null if invalid/unsafe.
+ */
+function sanitizeEmbedUrl(raw) {
+    if (!raw) return null;
+    try {
+        const url = new URL(raw);
+        if (url.protocol !== 'http:' && url.protocol !== 'https:') return null;
+        // Strip fragments to reduce attack surface
+        url.hash = '';
+        return url.toString();
+    } catch {
+        return null;
+    }
+}
+
 // YouTube Player States
 const YT_STATES = {
     UNSTARTED: -1,
@@ -342,7 +359,9 @@ export default function WatchTogether({ isOpen, onClose, socket, roomId, myStrea
                     setIsLeader(false);
                     setLeaderName(data.leaderName || 'Partner');
                 } else if (data.genericUrl) {
-                    setGenericUrl(data.genericUrl);
+                    const safeUrl = sanitizeEmbedUrl(data.genericUrl);
+                    if (!safeUrl) return;
+                    setGenericUrl(safeUrl);
                     setVideoId(null);
                 }
                 setUrlInput('');
@@ -489,11 +508,13 @@ export default function WatchTogether({ isOpen, onClose, socket, roomId, myStrea
                 socket.emit('send-watch', { roomId, type: 'load', videoId: youtubeId, leaderName: getUserName() });
             }
         } else if (isValidUrl(urlInput)) {
-            setGenericUrl(urlInput);
+            const safeUrl = sanitizeEmbedUrl(urlInput);
+            if (!safeUrl) return;
+            setGenericUrl(safeUrl);
             setVideoId(null);
             setUrlInput('');
             if (socket && roomId) {
-                socket.emit('send-watch', { roomId, type: 'load', genericUrl: urlInput });
+                socket.emit('send-watch', { roomId, type: 'load', genericUrl: safeUrl });
             }
         }
     }, [urlInput, socket, roomId, getUserName]);
