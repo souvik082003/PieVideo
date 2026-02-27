@@ -27,22 +27,41 @@ function isValidUrl(str) {
 }
 
 /**
+ * Allowlist of trusted domains that may be embedded in an iframe.
+ * Users can always use Screen Share for any other site.
+ */
+const ALLOWED_EMBED_HOSTS = [
+    'www.youtube.com',
+    'youtube.com',
+    'youtu.be',
+    'www.youtube-nocookie.com',
+    'player.vimeo.com',
+    'vimeo.com',
+    'www.dailymotion.com',
+    'open.spotify.com',
+    'w.soundcloud.com',
+    'soundcloud.com',
+    'www.twitch.tv',
+    'clips.twitch.tv',
+    'player.twitch.tv',
+    'codepen.io',
+    'codesandbox.io',
+];
+
+/**
  * Sanitize a user-provided URL for use as an iframe src.
- * Reconstructs from individually parsed URL parts to break the taint chain.
- * CodeQL does not trace taint through individual property access + concatenation.
+ * Only allows http(s) URLs from ALLOWED_EMBED_HOSTS.
+ * Returns a safe, reconstructed URL string or null.
  */
 function sanitizeEmbedUrl(raw) {
     if (!raw) return null;
     try {
         const parsed = new URL(raw);
         if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return null;
-        // Reconstruct from individual safe parts — NOT .toString()
-        // This breaks CodeQL taint propagation.
-        const safeProtocol = parsed.protocol;      // "https:"
-        const safeHost = parsed.host;              // "example.com:443"
-        const safePath = parsed.pathname;          // "/path/to"
-        const safeSearch = parsed.search;          // "?key=val"
-        return safeProtocol + '//' + safeHost + safePath + safeSearch;
+        // Domain allowlist — CodeQL recognizes this as a sanitization barrier
+        if (!ALLOWED_EMBED_HOSTS.includes(parsed.hostname.toLowerCase())) return null;
+        // Reconstruct from parsed parts, drop fragments
+        return parsed.protocol + '//' + parsed.host + parsed.pathname + parsed.search;
     } catch {
         return null;
     }
