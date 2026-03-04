@@ -275,9 +275,7 @@ export default function WatchTogether({ isOpen, onClose, socket, roomId, myStrea
             // Wait for iframe to be in DOM
             const tryAttach = (attempts = 0) => {
                 if (cancelled || attempts > 30) return;
-                // Find the YouTube iframe on the page
-                const iframes = document.querySelectorAll('iframe[src*="youtube.com/embed"]');
-                const iframe = iframes[iframes.length - 1]; // Get the most recent one
+                const iframe = iframeRef.current;
                 if (iframe) {
                     attachYTApi(iframe);
                 } else {
