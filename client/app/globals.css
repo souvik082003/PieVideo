@@ -48,10 +48,13 @@ body {
 
 input,
 button,
-textarea {
+textarea,
+select,
+a {
   font-family: inherit;
   outline: none;
   border: none;
+  touch-action: manipulation;
 }
 
 button {
