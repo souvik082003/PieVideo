@@ -231,19 +231,17 @@ export default function RoomPage() {
             setIsLoading(true);
             setError(null);
             try {
-                // Request high-quality video
+                // Request Safari-compatible video constraints
                 const stream = await navigator.mediaDevices.getUserMedia({
                     video: {
-                        width: { ideal: 1920, min: 1280 },
-                        height: { ideal: 1080, min: 720 },
-                        frameRate: { ideal: 30, min: 24 },
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 },
                         facingMode: 'user',
                     },
                     audio: {
                         echoCancellation: true,
                         noiseSuppression: true,
                         autoGainControl: true,
-                        sampleRate: 48000,
                     }
                 });
                 if (cancelled) { stream.getTracks().forEach(t => t.stop()); return; }
