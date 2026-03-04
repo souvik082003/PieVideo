@@ -1,0 +1,12 @@
+{
+    "name": "pievideo-deploy",
+    "version": "1.0.0",
+    "description": "Root package manager for Railway deployment",
+    "scripts": {
+        "build": "cd server && npm install",
+        "start": "cd server && npm start"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}
